@@ -10,7 +10,7 @@ import (
 )
 
 func Solve() {
-	inputLine, err := readInputLineFromFile("day02/sample.txt")
+	inputLine, err := readInputLineFromFile("day02/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
