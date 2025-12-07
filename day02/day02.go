@@ -10,7 +10,7 @@ import (
 )
 
 func Solve() {
-	inputLine, err := readInputLineFromFile("day02/input.txt")
+	inputLine, err := readInputLineFromFile("day02/sample.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,6 +42,7 @@ func Solve() {
 	}
 
 	invalidIDSum := 0
+	partTwoInvalidIDSum := 0
 	for _, productIDRange := range productIDRanges {
 		rangeStart := productIDRange[0]
 		rangeEnd := productIDRange[1]
@@ -50,10 +51,15 @@ func Solve() {
 				fmt.Printf("Silly pattern found: %d\n", productID)
 				invalidIDSum += productID
 			}
+			if isPartTwoSillyPattern(productID) {
+				fmt.Printf("Part two silly pattern found: %d\n", productID)
+				partTwoInvalidIDSum += productID
+			}
 		}
 	}
 
 	fmt.Printf("Sum of invalid product IDs: %d\n", invalidIDSum)
+	fmt.Printf("Sum of part two invalid product IDs: %d\n", partTwoInvalidIDSum)
 }
 
 func readInputLineFromFile(filepath string) (string, error) {
@@ -73,4 +79,19 @@ func isSillyPattern(n int) bool {
 	secondHalf := numStr[splitIndex:]
 
 	return firstHalf == secondHalf
+}
+
+func isPartTwoSillyPattern(n int) bool {
+	numStr := strconv.Itoa(n)
+
+	strLength := len(numStr)
+	for subLen := 1; subLen <= strLength/2; subLen++ {
+		subStr := numStr[:subLen]
+		leftOver := strings.ReplaceAll(numStr, subStr, "")
+		if leftOver == "" {
+			return true
+		}
+	}
+
+	return false
 }
